@@ -355,6 +355,13 @@ const VIDEO_DATA = {
   hobby: [
     {id:"cZIFW2Pm7u4",cat:"hobby",title:"Sirfiraa"},
     {id:"iPXEGkCGZOU",cat:"hobby",title:"Change — by \"deExpressions\""},
-    {id:"1UlTbrWH-gEif3pMAhCv3VAlGBPVpB0kO",cat:"hobby",title:"Simple Dance Edit",host:"drive",thumb:"simple_dance_edit.png"}
+    {id:"1UlTbrWH-gEif3pMAhCv3VAlGBPVpB0kO",cat:"hobby",title:"Simple Dance Edit",host:"drive",thumb:"simple_dance_edit.png"},
+    {
+      id: "7tgFVSzNm6a",
+      cat: "hobby",
+      title: "Short Film Competition Entry (Acting & Editing)",
+      host: "behance",
+      thumb: "competition_entry.png"
+    }
   ]
 };

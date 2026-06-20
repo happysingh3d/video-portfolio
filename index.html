@@ -258,6 +258,141 @@ footer .copy b{color:var(--gold)}
   .grid{grid-template-columns:1fr;gap:18px}
   .hero{padding:100px 20px 70px}
 }
+/* Scroll to Top Button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(245, 166, 35, 0.15);
+}
+.scroll-to-top:hover {
+  background: var(--gold);
+  color: #0a0a0f;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(245, 166, 35, 0.4), 0 0 25px rgba(245, 166, 35, 0.3);
+}
+.scroll-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile CTA Button */
+.mobile-cta {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 99;
+  display: none;
+}
+.mobile-cta-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--blue) 100%);
+  color: #0a0a0f;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(245, 166, 35, 0.2);
+  transition: all 0.3s ease;
+  font-family: var(--font-b);
+}
+.mobile-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 166, 35, 0.35);
+}
+@media (max-width: 768px) {
+  .mobile-cta {
+    display: block;
+  }
+  /* Adjust scroll-to-top to avoid overlaying if they are on same row */
+  .scroll-to-top {
+    bottom: 24px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Skeleton Loading Shimmer */
+.skeleton-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r);
+  overflow: hidden;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.skeleton-thumb {
+  aspect-ratio: 16/9;
+  background: rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-body {
+  padding: 14px 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.skeleton-title, .skeleton-meta {
+  height: 12px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-title {
+  width: 80%;
+  height: 14px;
+}
+.skeleton-meta {
+  width: 50%;
+}
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer-load 1.6s infinite;
+}
+@keyframes shimmer-load {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Accessibility Focus Rings */
+a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.25);
+}
+
 @media(max-width:480px){
   .hero-btns{flex-direction:column;width:100%;max-width:300px}
   .btn{width:100%}
@@ -278,7 +413,7 @@ footer .copy b{color:var(--gold)}
     <a href="#work" class="navlink">Work</a>
     <a href="#hobbies" class="navlink">Hobbies</a>
     <a href="#contact" class="navlink">Contact</a>
-    <a href="https://happysingh3d.github.io/Portfolio/" target="_blank" rel="noopener" class="cta-btn">View 3D Work →</a>
+    <a href="https://happysingh3d.github.io/3d-portfolio/" target="_blank" rel="noopener" class="cta-btn">View 3D Work →</a>
   </nav>
   <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
 </header>
@@ -305,7 +440,7 @@ footer .copy b{color:var(--gold)}
       <div class="port-links">
         <a href="#" class="port-link active">🎬 Video Editing</a>
         <a href="https://happysingh3d.github.io/graphic-portfolio/" target="_blank" rel="noopener" class="port-link inactive">🎨 Graphic Design →</a>
-        <a href="https://happysingh3d.github.io/Portfolio/" target="_blank" rel="noopener" class="port-link inactive">🧊 3D Art →</a>
+        <a href="https://happysingh3d.github.io/3d-portfolio/" target="_blank" rel="noopener" class="port-link inactive">🧊 3D Art →</a>
       </div>
     </div>
   </div>
@@ -375,7 +510,7 @@ footer .copy b{color:var(--gold)}
       <a href="mailto:harpreetsingh2604@gmail.com" class="email">harpreetsingh2604@gmail.com</a>
       <div class="contact-links">
         <a href="mailto:harpreetsingh2604@gmail.com" class="btn btn-primary">Email Me</a>
-        <a href="https://happysingh3d.github.io/Portfolio/" target="_blank" rel="noopener" class="btn btn-ghost">View 3D Portfolio →</a>
+        <a href="https://happysingh3d.github.io/3d-portfolio/" target="_blank" rel="noopener" class="btn btn-ghost">View 3D Portfolio →</a>
         <a href="https://happysingh3d.github.io/graphic-portfolio/" target="_blank" rel="noopener" class="btn btn-ghost">View Graphic Portfolio →</a>
       </div>
     </div>
@@ -393,11 +528,23 @@ footer .copy b{color:var(--gold)}
     <a href="#hobbies">Hobbies</a>
     <a href="#contact">Contact</a>
     <a href="mailto:harpreetsingh2604@gmail.com">Email</a>
-    <a href="https://happysingh3d.github.io/Portfolio/" target="_blank" rel="noopener">3D Portfolio</a>
+    <a href="https://happysingh3d.github.io/3d-portfolio/" target="_blank" rel="noopener">3D Portfolio</a>
     <a href="https://happysingh3d.github.io/graphic-portfolio/" target="_blank" rel="noopener">Graphic Portfolio</a>
   </div>
   <div class="copy">© 2026 Harpreet Singh Uppal (Happy Singh) · Video Editor · Crafted <b>frame by frame</b></div>
 </footer>
+
+<!-- Scroll-to-top and Mobile CTA -->
+<button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<div id="mobileCta" class="mobile-cta">
+  <a href="#contact" class="mobile-cta-btn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    Let's Connect
+  </a>
+</div>
 
 <script src="videos.js"></script>
 <script src="main.js"></script>

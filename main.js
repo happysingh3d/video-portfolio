@@ -25,30 +25,34 @@
     if (v.host === 'drive') {
       return 'https://drive.google.com/file/d/' + v.id + '/view?usp=sharing';
     }
+    if (v.host === 'behance') {
+      return 'https://www-ccv.adobe.io/v1/player/ccv/' + v.id + '/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View';
+    }
     return 'https://www.youtube.com/watch?v=' + v.id;
   }
 
   function getThumb(v) {
-    if (v.host === 'drive') {
+    if (v.host === 'drive' || v.host === 'behance') {
       return 'thumbnails/' + v.thumb;
     }
     return 'https://img.youtube.com/vi/' + v.id + '/mqdefault.jpg';
   }
 
   function getFallbackThumb(v) {
-    if (v.host === 'drive') {
+    if (v.host === 'drive' || v.host === 'behance') {
       return 'thumbnails/' + v.thumb;
     }
     return 'https://img.youtube.com/vi/' + v.id + '/hqdefault.jpg';
   }
 
-  // Card HTML (supports YouTube and Google Drive)
+  // Card HTML (supports YouTube, Google Drive, and Behance)
   function videoCardHTML(v) {
     var isDrive = v.host === 'drive';
+    var isBehance = v.host === 'behance';
     var url = getUrl(v);
     var thumbnail = getThumb(v);
     var fallback = getFallbackThumb(v);
-    var watchText = isDrive ? 'Watch on Google Drive' : 'Watch on YouTube';
+    var watchText = isDrive ? 'Watch on Google Drive' : (isBehance ? 'Watch on Behance' : 'Watch on YouTube');
 
     return (
       '<a class="card" href="' + url + '" target="_blank" rel="noopener">' +
@@ -92,16 +96,35 @@
 
   function renderCategory(cat, reset) {
     const list = VIDEO_DATA[cat] || [];
-    if (reset) { grid.innerHTML = ''; rendered = 0; }
     const usesPaging = PAGED_CATS.indexOf(cat) !== -1;
-    const end   = usesPaging ? Math.min(rendered + PAGE, list.length) : list.length;
-    const slice = list.slice(rendered, end);
-    const frag  = document.createElement('div');
-    frag.innerHTML = slice.map(cardHTML).join('');
-    while (frag.firstChild) grid.appendChild(frag.firstChild);
-    rendered = end;
-    observeReveals();
-    updateLoadMore(list.length, usesPaging);
+
+    if (reset) {
+      grid.innerHTML = Array(Math.min(6, list.length || 6))
+        .fill('<div class="skeleton-card"><div class="skeleton-thumb shimmer"></div><div class="skeleton-body"><div class="skeleton-title shimmer"></div><div class="skeleton-meta shimmer"></div></div></div>')
+        .join('');
+      rendered = 0;
+      loadMoreBtn.classList.add('hidden');
+      showingCount.textContent = 'Loading...';
+
+      setTimeout(function () {
+        if (currentCat !== cat) return;
+        grid.innerHTML = '';
+        doRender();
+      }, 300);
+    } else {
+      doRender();
+    }
+
+    function doRender() {
+      const end   = usesPaging ? Math.min(rendered + PAGE, list.length) : list.length;
+      const slice = list.slice(rendered, end);
+      const frag  = document.createElement('div');
+      frag.innerHTML = slice.map(cardHTML).join('');
+      while (frag.firstChild) grid.appendChild(frag.firstChild);
+      rendered = end;
+      observeReveals();
+      updateLoadMore(list.length, usesPaging);
+    }
   }
 
   function updateLoadMore(total, usesPaging) {
@@ -169,13 +192,31 @@
     document.querySelectorAll('.reveal:not(.in)').forEach(function (el) { io.observe(el); });
   }
 
-  // Sticky header
+  // Sticky header and scroll-to-top button
   var header = document.getElementById('header');
+  var scrollToTopBtn = document.getElementById('scrollToTop');
   function onScroll() {
     if (window.scrollY > 40) header.classList.add('scrolled');
     else header.classList.remove('scrolled');
+
+    if (scrollToTopBtn) {
+      if (window.scrollY > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  if (scrollToTopBtn) {
+    scrollToTopBtn.addEventListener('click', function () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
 
   // Mobile menu
   var menuToggle = document.getElementById('menuToggle');
